@@ -1,46 +1,79 @@
 body {
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: sans-serif;
   font-size: 15pt;
   background-color: rgba(37, 37, 37, 1);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   height: 90vh;
-  -webkit-user-select: none;
+  -webkit-user-select: auto;
 }
 
 .menuBar{
   -webkit-app-region: drag;
   position: fixed;
   width: 100%;
+  height: 30px;
   background-color: rgb(25, 27, 29);
   display: flex;
   font-size: 10pt;
   justify-content: start;
-  height: 50px;
+
+}
+
+.menuBar img{
+  padding: 0.2em;
 }
 
 .menuBar span{
   position: absolute;
-  top: 25px;
+  top: 15px;
   right: 50%;
   transform: translateX(50%) translateY(-50%);
 }
 
-.menuBar button:nth-child(2){
-  margin-right: auto;
+.menuBar button{
+  margin: 0.2em;
+  color: white;
+  -webkit-app-region: no-drag;
+  padding: 0.3em 0.3em;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  transition: all ease 0.25s;
 }
 
-.menuBar button{
+.menuBar a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2em;
+  color: white;
+  -webkit-app-region: no-drag;
+  padding: 0.3em 0.3em;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  transition: all ease 0.25s;
+}
+
+.menuBar button:nth-last-child(-n+3){
+  margin: 0;
   color: white;
   -webkit-app-region: no-drag;
   padding: 0.3em 1.3em;
   background-color: transparent;
   border: none;
+  border-radius: 0px;
+  transition: all ease 0.25s;
 }
 
 .menuBar button:hover{
+  background-color: #232629;
+}
+
+.menuBar a:hover{
   background-color: #232629;
 }
 
@@ -66,17 +99,61 @@ body {
   
 }
 
-select{
-  font-size: 15pt;
-  color: white;
+.select-div{
+  position: relative;
+  border-radius: 0.5rem;
+  width: 16rem;
   background-color: #1f6aa5;
-  border-radius: 0.2em;
-  border: none;
-  padding: 0.5em;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
+  overflow: hidden;
+}
+
+.select-div:before{
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  content: ' ';
+  right: 0;
+  top: 0;
+  background-color: rgb(148, 230, 255);
+  border-radius: 99999px;
+  filter: blur(16px);
+}
+
+select{
+  appearance: none;
+  position: relative;; 
+  color: white;
+  background-color: transparent;
+  outline: 0px solid transparent;
+  outline-offset: 0px;
+  border-width: 1px;
+  border-color: rgb(115 115 115);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  display: block;
+  width: 100%;
+  padding: 0.625rem;
+}
+
+select option{
+  background-color: #232629;
+}
+
+.svg{
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  right: 0;
+  transform: rotate(-45deg);
+  stroke: white;
+  top: 0.375rem;
+  transition-duration: 300ms;
+}
+
+.select-div:hover .svg{
+  transform: rotate(0deg);
 }
 
 .row span{
@@ -146,4 +223,13 @@ a{
 
 .success{
   color: rgb(89, 187, 89);
+}
+
+footer{
+  position: fixed;
+  bottom: 0;
+  font-size: 10pt;
+  text-align: center;
+  width: 100%;
+  color: #797b7e;
 }

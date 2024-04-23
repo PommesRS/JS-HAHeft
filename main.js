@@ -1,7 +1,13 @@
 const { BrowserWindow, app, ipcMain, Menu, Tray } = require("electron");
 const path = require('node:path')
+const { autoUpdater, AppUpdater } = require('electron-updater')
+const fs = require('fs')
 
 let win; // scoped to make varaible public
+
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true; 
+
 function createWindow() {
   win=new BrowserWindow({
     width: 1020,
@@ -68,4 +74,28 @@ ipcMain.on('voidApp', () => {
   win.hide();
 });
 
-app.on("ready", createWindow);
+ipcMain.on('resetToken', () => {
+  if (fs.existsSync('./token.json')) {
+    fs.unlink('./token.json', (err) => {
+      if (err) throw err;
+      console.log('token deleted')
+    })
+  } else {
+    throw('no token detected')
+  }
+});
+
+ipcMain.handle('getVersion', () => {
+  return app.getVersion();
+})
+
+app.whenReady().then(() => {
+  createWindow();
+
+  autoUpdater.checkForUpdates();
+})
+
+autoUpdater.on('update-available', () => {
+  let pth = autoUpdater.downloadUpdate()
+  console.log(pth)
+})

@@ -26,6 +26,17 @@ window.addEventListener('load', () => {
     ipc.send("voidApp");
   });
 
+  document.querySelector("#resetBtn").addEventListener("click", () => {
+    ipc.send("resetToken");
+  });
+
+  const getVersion = async () => {
+    
+    document.querySelector("footer").innerHTML += await ipc.invoke("getVersion");
+  }
+
+  getVersion();
+
   var form = document.getElementById('form')
   console.log(form)
   form.addEventListener('submit', handleSubmit);

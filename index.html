@@ -19,6 +19,9 @@
       <div class="menuBar">
         <img src="icon.ico" alt="icon">
         <button id="backgroundBtn">Hintergrund</button>
+        <a id="menuLink" href="index.html">Hausaufgaben</a></button>
+        <a id="menuLink" href="mailBox.html">Mails</a>
+        <button style="margin-right: auto;" id="resetBtn">Reset Token</button>
         <span>Hausaufgabenheft Manager</span>
         <button id="minimize"><i class="fa-solid fa-minus"></i></i></button>
         <button id="maximize"><i class="fa-regular fa-square"></i></button>
@@ -26,23 +29,35 @@
       </div>
       <form id="form">
         <div class="row">
-          <select class="select" id="subject">
-            <option value="Deutsch">Deutsch</option>
-            <option value="Mathe">Mathe</option>
-            <option value="Englisch">Englisch</option>
-            <option value="Physik">Physik</option>
-            <option value="Geschichte">Geschichte</option>
-            <option value="Informatik">Informatik</option>
-            <option value="PB">PB</option>
-            <option value="Sport">Sport</option>
-            <option value="Kunst">Kunst</option>
-          </select>
-          <select class="select" id="assignmentType">
-            <option value="Hausaufgabe">Hausaufgabe</option>
-            <option value="Test">Test</option>
-            <option value="Klausur">Klausur</option>
+          <div class="select-div">
+            <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" height="100" class="svg">
+              <path stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none" d="M60.7,53.6,50,64.3m0,0L39.3,53.6M50,64.3V35.7m0,46.4A32.1,32.1,0,1,1,82.1,50,32.1,32.1,0,0,1,50,82.1Z" class="svg-stroke-primary"></path>
+            </svg>
+            <select id="subject">
+              <option value="Deutsch">Deutsch</option>
+              <option value="Mathe">Mathe</option>
+              <option value="Englisch">Englisch</option>
+              <option value="Informatik">Informatik</option>
+              <option value="Geschichte">Geschichte</option>
+              <option value="PB">PB</option>
+              <option value="Kunst">Kunst</option>
+              <option value="SK">SK</option>
+              <option value="Sport">Sport</option>
+              <option value="Physik">Physik</option>
+            </select>
+          </div>
 
-          </select>
+          <div class="select-div">
+            <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" height="100" class="svg">
+              <path stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none" d="M60.7,53.6,50,64.3m0,0L39.3,53.6M50,64.3V35.7m0,46.4A32.1,32.1,0,1,1,82.1,50,32.1,32.1,0,0,1,50,82.1Z" class="svg-stroke-primary"></path>
+            </svg>
+            <select id="assignmentType">
+              <option value="Hausaufgabe">Hausaufgabe</option>
+              <option value="Test">Test</option>
+              <option value="Klausur">Klausur</option>
+            </select>
+          </div>
+
         </div>
           
     
@@ -63,5 +78,8 @@
           <label id="output"></label>
         </div>
       </form>
+      <footer class="footer">
+        &copy; JSHAHeft 2024 | v
+      </footer>
   </body>
 </html>

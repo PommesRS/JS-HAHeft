@@ -1,6 +1,6 @@
 {
   "name": "js-haheft",
-  "version": "1.0.0",
+  "version": "3.0.3",
   "main": "main.js",
   "author": "PommesRS",
   "description": "A assignment manager which is based on the google calendar api with a custom ui",
@@ -8,13 +8,19 @@
     "start": "electron .",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "test": "nodemon mails.js"
+  },
+  "repository": "https://github.com/PommesRS/JS-HAHeft",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
   },
   "build": {
     "appId": "com.PommesRS.HAHeft",
     "productName": "HAHeft",
     "win": {
-      "category": "your.app.category.type"
+      "target": "nsis"
     }
   },
   "devDependencies": {
@@ -26,13 +32,18 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.3.1",
     "@electron-forge/plugin-fuses": "^7.3.1",
     "@electron/fuses": "^1.7.0",
-    "electron": "^27.0.0"
+    "electron": "^27.0.0",
+    "electron-builder": "^24.13.3"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
-    "electron-builder": "^24.13.3",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^6.1.8",
-    "googleapis": "^105.0.0"
+    "fs": "^0.0.1-security",
+    "googleapis": "^105.0.0",
+    "imap": "^0.8.19",
+    "mailparser": "^3.7.0",
+    "node-imap": "^0.9.6",
+    "nodemon": "^3.1.0"
   }
 }
