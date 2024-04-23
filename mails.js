@@ -50,7 +50,10 @@ const attachmentSize = document.getElementById('attachmentSize')
 var attachmentBuffer = [];
 var attachmentFileName = [];
 
-const getMails = (bLoadAllMails, msgID) => {
+var deleteMsg
+
+const getMails = (bLoadAllMails, msgID, tableRowIndex) => {
+
     try {
         const imap = new Imap(imapConfig);
         var table = document.getElementById('table');
@@ -62,7 +65,7 @@ const getMails = (bLoadAllMails, msgID) => {
 
 
         imap.once('ready', () => {
-            imap.openBox('INBOX', false, () => {
+            imap.openBox('INBOX', false, (err, box) => {
                 if (bLoadAllMails) {
                     table.innerHTML = ' '
                     imap.search(['UNSEEN'], (err, results) => {
@@ -72,6 +75,7 @@ const getMails = (bLoadAllMails, msgID) => {
                         else if(results != 0){
                             const f = imap.fetch(results, {bodies: ''});
                             f.on('message', msg => {
+                                console.log(msg)
                                 msg.on('body', stream => {
                                     
                                     simpleParser(stream, async (err, parsed) => {
@@ -101,12 +105,19 @@ const getMails = (bLoadAllMails, msgID) => {
                                     var date = parsed.date
                                     timestamp = date.getTime()
                                     date = date.getDate() + '.' +  (date.getMonth() + 1) + '.' + date.getFullYear()
-                                    
                                     table.innerHTML += '<tr onclick="log(this)" class="mailRow" data-timestamp="'+ timestamp +'" data-msgID="' + parsed.headers.get('message-id') + '"><td><span id="sideMailFrom">' + parsed.from.value[0].name + '</span> <span id="sideMailDate" data-timestamp="'+ timestamp +'">'+ date +'</span><span id="sideMailSubject">'+ parsed.subject +'</span></td></tr>'
-                                    console.log(parsed)
+                                    
                                 })
                             })
                         })
+
+                        f.once('end', () => {
+                            setTimeout(() => {
+                                sort()
+                                console.log('arsch')
+                              }, "50");
+                        })
+
                     })
 
 
@@ -136,7 +147,6 @@ const getMails = (bLoadAllMails, msgID) => {
                                     mailPlaceholder.style.position = 'absolute'
                                     mailPlaceholder.style.right = '999999em'
 
-                                    console.log(parsed)
 
                                     if (parsed.attachments.length > 0) {
                                         parsed.attachments.forEach((attachment, i) => {
@@ -151,6 +161,32 @@ const getMails = (bLoadAllMails, msgID) => {
 
                                     
                                 })
+                            })
+
+                            msg.once('attributes', attrs => {
+                                const {uid} = attrs;
+                                console.log(attrs)
+                                imap.addFlags(uid, ['\\SEEN'], (err) => {
+                                    if (err) {
+                                        console.error(err)
+                                    }
+                                    console.log('added flag "read"')
+                                })
+                                deleteMsg = () => {
+                                    if(confirm('Du bist im begriff eine E-Mail zu löschen!')){
+                                        imap.addFlags(uid, ['\\DELETED'], (err) => {
+                                            if (err) {
+                                                console.error(err)
+                                            }
+                                        })
+                                        table.deleteRow(tableRowIndex)
+                                        mailViewerContainer.style.position = 'absolute'
+                                        mailViewerContainer.style.right = '999999em'
+                                        mailPlaceholder.style.position = 'relative'
+                                        mailPlaceholder.style.right = '0'
+                                    }
+                                }
+                                
                             })
                         })
                     })
@@ -182,7 +218,7 @@ async function log(e){
     attachmentFileName = [];
     attachmentDownloadContainer.innerHTML = '<div class="attachmentDownloadHeading"><h4>Anhänge</h4><i class="fa fa-file"></i></div>'
     msgID = e.getAttribute('data-msgID')
-    msgObject = getMails(false, msgID)
+    msgObject = getMails(false, msgID, e.rowIndex)
 }
 
 function downloadAttachment(e) {
@@ -203,17 +239,15 @@ function sort(){
             rows = table.rows;
             /*Loop through all table rows (except the
             first, which contains table headers):*/
-            for (i = 1; i < (rows.length - 0); i++) {
+            for (i = 0; i < (rows.length - 0); i++) {
             //start by saying there should be no switching:
             shouldSwitch = false;
             /*Get the two elements you want to compare,
             one from current row and one from the next:*/
             x = rows[i].getElementsByTagName("TD")[0].getElementsByTagName('span')[1].getAttribute('data-timestamp');
             y = rows[i + 1].getElementsByTagName("TD")[0].getElementsByTagName('span')[1].getAttribute('data-timestamp');
-            console.log(x, y)
             //check if the two rows should switch place:
             if (parseInt(x) < parseInt(y)) {
-                console.log('switch')
                 //if so, mark as a switch and break the loop:
                 shouldSwitch = true;
                 break;

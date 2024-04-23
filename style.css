@@ -19,7 +19,7 @@ body {
   display: flex;
   font-size: 10pt;
   justify-content: start;
-
+  z-index: 10;
 }
 
 .menuBar img{
